@@ -33,7 +33,7 @@ function Profiles() {
                     aria-expanded={open ? 'true' : undefined}
                 >
                     <Avatar
-                        sx={{ width: 32, height: 32 }}
+                        sx={{ width: 34, height: 34 }}
                         alt="avata"
                         src='https://tse3.mm.bing.net/th?id=OIP.qIu2wcvur-VB04HW0V0j0QHaFj&pid=Api&P=0&h=180' />
                 </IconButton>
