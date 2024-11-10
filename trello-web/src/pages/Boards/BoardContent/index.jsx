@@ -1,9 +1,9 @@
-import { Box } from "@mui/material"
+import { Box, colors } from "@mui/material"
 
 function BoardContent() {
     return (
         <Box sx={{
-            backgroundColor: 'primary.main',
+            bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495E' : '#1976D2'),
             width: '100%',
             flexGrow: 1,
             display: 'flex',

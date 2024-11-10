@@ -10,16 +10,16 @@ const theme = createTheme({
 
   colorSchemes: {
     light: {
-      palette: {
-        primary: teal,
-        secondary: deepOrange
-      },
+      // palette: {
+      //   primary: teal,
+      //   secondary: deepOrange
+      // },
     },
     dark: {
-      palette: {
-        primary: cyan,
-        secondary: orange
-      },
+      // palette: {
+      //   primary: cyan,
+      //   secondary: orange
+      // },
     },
   },
 
@@ -32,16 +32,16 @@ const theme = createTheme({
       styleOverrides: {
         body: {
           '*::-webkit-scrollbar': {
-            width: '8px',
-            height: '8px'
+            width: '5px',
+            height: '5px'
           },
           '*::-webkit-scrollbar-thumb': {
-            backgroundColor: '#bdc3c7',
-            borderRadius: '8px'
+            backgroundColor: '#dcdde1',
+            borderRadius: '5px'
           },
           '*::-webkit-scrollbar-thumb:hover': {
-            backgroundColor: '#00b894',
-            borderRadius: '8px'
+            backgroundColor: 'white',
+            borderRadius: '5px'
           }
         }
       }
@@ -50,37 +50,39 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none'
+          textTransform: 'none',
+          borderWidth: '0.5px',
+          '&:hover': { borderWidth: '0.5px' }
         }
       }
     },
 
     MuiInputLabel: {
       styleOverrides: {
-        root: ({ theme }) => ({
-          color: theme.palette.primary.main,
+        root: {
+          // color: theme.palette.primary.main,
           fontSize: '0.875rem'
-        })
+        }
       }
     },
 
     MuiOutlinedInput: {
       styleOverrides: {
-        root: ({ theme }) => ({
-          color: theme.palette.primary.main,
+        root: {
+          // color: theme.palette.primary.main,
           fontSize: '0.875rem',
-          '.MuiOutlinedInput-notchedOutline': {
-            borderColor: theme.palette.primary.light
-          },
-          '&:hover': {
-            '.MuiOutlinedInput-notchedOutline': {
-              borderColor: theme.palette.primary.main
-            }
-          },
-          '& fieldset': {
-            borderWidth: '1px !important'
-          }
-        })
+          // '.MuiOutlinedInput-notchedOutline': {
+          //   borderColor: theme.palette.primary.light
+          // },
+          // '&:hover': {
+          //   '.MuiOutlinedInput-notchedOutline': {
+          //     borderColor: theme.palette.primary.main
+          //   }
+          // },
+          '& fieldset': { borderWidth: '0.5px !important' },
+          '&:hover fieldset': { borderWidth: '2px !important' },
+          '&.Mui-focused fieldset': { borderWidth: '2px !important' }
+        }
       }
     },
   },
