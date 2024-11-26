@@ -26,8 +26,9 @@ function AppBar() {
     const [searchValue, setSearchValue] = useState('')
     return (
         <Box sx={{
+            position: "static",
             width: '100%',
-            height: (theme) => theme.trello.appBarheight,
+            height: (theme) => theme.trello.appBarHeight,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between', // cac phan tu con cach deu nhau va sat mep container 
