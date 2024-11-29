@@ -8,6 +8,7 @@ import Avatar from '@mui/material/Avatar'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import Button from '@mui/material/Button'
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import {capitalizeFirstLetter } from '~/utils/formatters'
 
 const MENU_STYLE = {
     color: 'white',
@@ -23,7 +24,10 @@ const MENU_STYLE = {
     }
 }
 
-function BoardBar() {
+function BoardBar({board}) {
+    // const {board} = props
+    // const board = props.board
+
     return (
         <Box sx={{
             position: "static",
@@ -42,14 +46,14 @@ function BoardBar() {
                 <Chip
                     sx={MENU_STYLE}
                     icon={<DashboardIcon />}
-                    label="HoangNgocAnh Trello Web"
+                    label={board?.title}
                     clickable
                 />
 
                 <Chip
                     sx={MENU_STYLE}
                     icon={<VpnLockIcon />}
-                    label="Add to google Drive"
+                    label= {capitalizeFirstLetter(board?.type)}
                     clickable
                 />
 
