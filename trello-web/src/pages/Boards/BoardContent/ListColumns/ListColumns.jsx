@@ -2,10 +2,9 @@ import Box from "@mui/material/Box";
 import Column from "./Column/Column";
 import Button from "@mui/material/Button";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
-
 import {
   SortableContext,
-  horizontalListSortingStrategy,
+  horizontalListSortingStrategy, // keo theo chieu ngang
 } from "@dnd-kit/sortable";
 
 function ListColumns({ columns }) {
