@@ -1,0 +1,42 @@
+{
+  // Hiển thị kiểm tra lỗi TypeScript
+  "typescript.validate.enable": true,
+
+  // Cấu hình ESLint để kiểm tra lỗi và linting
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+
+  // Tự động sửa lỗi (nếu có thể) khi lưu file
+  // "editor.codeActionsOnSave": {
+  //   "source.fixAll": true,
+  //   "source.organizeImports": true
+  // },
+
+  // Bật highlight cho lỗi trong quá trình gõ code
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+
+  // Gợi ý IntelliSense tốt hơn
+  "editor.suggestSelection": "first",
+
+  // Tăng khả năng kiểm tra các lỗi trong file lớn
+  "files.maxMemoryForLargeFilesMB": 8192,
+
+  // Tự động thêm dấu chấm phẩy
+  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": true,
+
+  // Hiển thị thông báo về lỗi chính xác hơn
+  "problems.decorations.enabled": true,
+
+  // Bật breadcrumbs để dễ dàng điều hướng code
+  "breadcrumbs.enabled": true,
+
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
+}
