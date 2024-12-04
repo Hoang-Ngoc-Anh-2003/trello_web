@@ -15,7 +15,8 @@ import { mapOrder } from "~/utils/sorts";
 import Column from "./ListColumns/Column/Column";
 import Card from "./ListColumns/Column/ListCards/Card/Card";
 import ListColumns from "./ListColumns/ListColumns";
-import { cloneDeep } from "lodash";
+import { cloneDeep, isEmpty } from "lodash";
+import { generatePlaceholderCar } from "~/utils/formatters";
 
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: "ACTIVE_DRAG_ITEM_TYPE_COLUMN",
@@ -93,11 +94,17 @@ function BoardContent({ board }) {
         column => column._id === overColumn._id
       );
 
+      // column cu
       if (nextActiveColumn) {
         // xoas card
         nextActiveColumn.cards = nextActiveColumn.cards.filter(
           card => card._id !== activeDraggingCardId
         );
+
+        // them card display:none khi khong con card nao nua trong column
+        if (isEmpty(nextActiveColumn.cards)) {
+          nextActiveColumn.cards = [generatePlaceholderCar(nextActiveColumn)];
+        }
 
         // cap nhat lai mang cardorderId cho chuan dulieu
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
@@ -105,6 +112,7 @@ function BoardContent({ board }) {
         );
       }
 
+      // column moi
       if (nextOverColumn) {
         // kieu tra card dang keo co ton tai o overColumn chua, neu co thi xoa no truoc
         nextOverColumn.cards = nextOverColumn.cards.filter(
@@ -123,11 +131,18 @@ function BoardContent({ board }) {
           rebuild_activeDraggingCardData
         );
 
+        // xoa card trang neu no ton tai
+        nextOverColumn.cards = nextOverColumn.cards.filter(
+          card => !card.FE_PlaceholderCard
+        );
+
         // cap nhat lai mang cardOrderIds
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
           card => card._id
         );
       }
+
+      console.log("nextColumns: ", nextColumns);
 
       return nextColumns;
     });
