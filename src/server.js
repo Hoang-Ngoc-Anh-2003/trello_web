@@ -6,6 +6,7 @@ import exitHook from 'async-exit-hook'
 import {env} from '~/config/environment'
 import 'dotenv/config'
 import {APIs_V1} from '~/routes/v1'
+import {errorHandlingMiddleware} from '~/middlewares/errorHandlingMiddleware'
 const START_SERVER = () => {
 
   const app = express()
@@ -16,6 +17,9 @@ const START_SERVER = () => {
   // app.get('/', (req, res) => {
   //   res.end('<h1>Hello World!</h1><hr>')
   // })
+
+  //middleware xu ly loi tap trung
+  app.use(errorHandlingMiddleware)
 
   app.listen(env.APP_PORT, env.APP_HOST, () => {
     // eslint-disable-next-line no-console
