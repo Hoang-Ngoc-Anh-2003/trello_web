@@ -12,7 +12,7 @@ const createNew = async (reqBody) =>{
     const createdBoard = await boardModel.createNew(newBoard)
     console.log(createdBoard)
 
-    //lay ban ghi board sau khi goi
+    //lay ban ghi board sau khi goi (optional)
     const getNewBoard = await boardModel.findOneById(createdBoard.insertedId)
     console.log(getNewBoard)
 

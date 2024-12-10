@@ -1,4 +1,5 @@
 import Joi from 'joi'
+import {ObjectId} from 'mongodb'
 import { GET_DB } from '~/config/mongodb'
 //define collection (name&schema )
 const BOARD_COLLECTION_NAME = 'boards'
@@ -14,9 +15,14 @@ const BOARD_COLLECTION_SCHEMA = Joi.object({ //correction data,
   _destroy: Joi.boolean().default(false)
 })
 
+const validateBeforeCreate = async (data) =>{
+  return await  BOARD_COLLECTION_SCHEMA.validateAsync(data,{abortEarly:false})
+}
+
 const createNew = async (data) =>{
   try {
-    const createdBoard = await GET_DB().collection(BOARD_COLLECTION_NAME).insertOne(data) 
+    const validData = await validateBeforeCreate(data)
+    const createdBoard = await GET_DB().collection(BOARD_COLLECTION_NAME).insertOne(validData)
     return createdBoard
   } catch (error) {
     throw new Error(error) //khong nhay error sang tang controller. tao 1 error moi co stack trace
@@ -25,8 +31,9 @@ const createNew = async (data) =>{
 
 const findOneById = async (id) =>{
   try {
+    console.log('id:',id)
     const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({
-      _id: id
+      _id: new ObjectId(id)
     })
     return result
   } catch (error) {
