@@ -11,10 +11,9 @@ const createNew = async (req, res, next) => {
     // console.log('req.jwtDecoded:',req.jwtDecoded)
 
     //Dieu huong du lieu sang tang service
-
     const createdBoard =await boardService.createNew(req.body)
-    // throw new ApiError(StatusCodes.BAD_GATEWAY,'testloitaptrung')
 
+    // throw new ApiError(StatusCodes.BAD_GATEWAY,'testloitaptrung')
     
     //ket qua tra ve phia client
      res.status(StatusCodes.CREATED).json(createdBoard)
@@ -23,6 +22,19 @@ const createNew = async (req, res, next) => {
   }
 }
 
+const getDetails = async (req, res, next) => { 
+  try {
+    const boardId = req.params.id //id o boardRoute /:id
+    //Dieu huong du lieu sang tang service
+    const board =await boardService.getDetails(boardId)
+    //ket qua tra ve phia client
+     res.status(StatusCodes.OK).json(board)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const boardController = {
-  createNew
+  createNew,
+  getDetails
 }

@@ -32,9 +32,17 @@ const createNew = async (data) =>{
 const findOneById = async (id) =>{
   try {
     console.log('id:',id)
-    const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({
-      _id: new ObjectId(id)
-    })
+    const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({_id: new ObjectId(id)})
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+//query tong hop (aggregate) de lay toan bo Column va Cards thuoc ve Board do
+const getDetails = async (id) =>{
+  try {
+   // console.log('id:',id)
+    const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({_id: new ObjectId(id)})
     return result
   } catch (error) {
     throw new Error(error)
@@ -45,5 +53,6 @@ export const boardModel = {
   BOARD_COLLECTION_NAME,
   BOARD_COLLECTION_SCHEMA,
   createNew,
-  findOneById
+  findOneById,
+  getDetails
 }
