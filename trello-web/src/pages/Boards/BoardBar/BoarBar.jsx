@@ -8,7 +8,7 @@ import Avatar from '@mui/material/Avatar'
 import AvatarGroup from '@mui/material/AvatarGroup'
 import Button from '@mui/material/Button'
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import {capitalizeFirstLetter } from '~/utils/formatters'
+import { capitalizeFirstLetter } from '~/utils/formatters'
 
 const MENU_STYLE = {
     color: 'white',
@@ -24,7 +24,7 @@ const MENU_STYLE = {
     }
 }
 
-function BoardBar({board}) {
+function BoardBar({ board }) {
     // const {board} = props
     // const board = props.board
 
@@ -43,17 +43,19 @@ function BoardBar({board}) {
             bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#34495E' : '#1976D2')
         }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                <Chip
-                    sx={MENU_STYLE}
-                    icon={<DashboardIcon />}
-                    label={board?.title}
-                    clickable
-                />
-
+                {/* description tu backend */}
+                <Tooltip title={board?.description}>
+                    <Chip
+                        sx={MENU_STYLE}
+                        icon={<DashboardIcon />}
+                        label={board?.title}
+                        clickable
+                    />
+                </Tooltip>
                 <Chip
                     sx={MENU_STYLE}
                     icon={<VpnLockIcon />}
-                    label= {capitalizeFirstLetter(board?.type)}
+                    label={capitalizeFirstLetter(board?.type)}
                     clickable
                 />
 
@@ -100,7 +102,7 @@ function BoardBar({board}) {
                             border: 'none',
                             color: 'white',
                             cursor: 'pointer',
-                            '&: first-of-type': {bgcolor: '#a4b0be'}
+                            '&: first-of-type': { bgcolor: '#a4b0be' }
                         }
                     }}>
                     <Tooltip title='HoangNgocAnh'>

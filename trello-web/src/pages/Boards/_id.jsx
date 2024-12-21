@@ -11,7 +11,7 @@ function Board() {
 
     useEffect(() => {
         //lay id tu url , nen su dung react-router-dom
-        const boardId = '675c05640943a70000e28bac'
+        const boardId = '67655e4843da9dde923534b3'
         //callAPI
         fetchBoardDetailsAPI(boardId).then((board) => {
             setBoard(board)
@@ -20,8 +20,8 @@ function Board() {
     return (
         <Container disableGutters maxWidth={false} sx={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'primary.main' }}>
             <AppBar />
-            <BoardBar board={board} />
-            <BoardContent board={board} />
+            <BoardBar board={mockData.board} />
+            <BoardContent board={mockData.board} />
         </Container>
     )
 }
