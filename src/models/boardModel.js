@@ -1,12 +1,16 @@
 import Joi from 'joi'
 import {ObjectId} from 'mongodb'
 import { GET_DB } from '~/config/mongodb'
+import {BOARD_TYPES} from '~/utils/constants'
+import {columnModel} from '~/models/columnModel'
+import {cardModel}  from '~/models/cardModel'
 //define collection (name&schema )
 const BOARD_COLLECTION_NAME = 'boards'
 const BOARD_COLLECTION_SCHEMA = Joi.object({ //correction data,
   title: Joi.string().required().min(3).max(50).trim().strict(),
   slug: Joi.string().required().min(3).trim().strict(),
   description: Joi.string().required().min(3).max(256).trim().strict(),
+  type: Joi.string().valid(BOARD_TYPES.PUBLIC,BOARD_TYPES.PRIVATE).required(),
 
   columnOrderIds: Joi.array().items(Joi.string()).default([]),
 
@@ -41,9 +45,28 @@ const findOneById = async (id) =>{
 //query tong hop (aggregate) de lay toan bo Column va Cards thuoc ve Board do
 const getDetails = async (id) =>{
   try {
-   // console.log('id:',id)
-    const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({_id: new ObjectId(id)})
-    return result
+  // console.log('id:',id)
+    // const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOne({_id: new ObjectId(id)})
+    const result = await GET_DB().collection(BOARD_COLLECTION_NAME).aggregate([
+      { $match: {
+        _id: new ObjectId(id),
+        _destroy: false
+      } },
+      { $lookup:{
+        from: columnModel.COLUMN_COLLECTION_NAME,
+        localField: '_id', //khoa chinh
+        foreignField: 'boardId', //khoa ngoai cua column ket noi board,
+        as: 'columns'
+      } },
+      { $lookup:{
+        from: cardModel.CARD_COLLECTION_NAME,
+        localField: '_id',
+        foreignField: 'boardId',
+        as: 'cards'
+      } }
+    ]).toArray()
+    console.log(result)
+    return result[0] || {}
   } catch (error) {
     throw new Error(error)
   }
@@ -56,3 +79,7 @@ export const boardModel = {
   findOneById,
   getDetails
 }
+
+// boardId: 67655e4843da9dde923534b3
+//columnId: 6765631b1011866caa62ac97
+//cardId: 6765648c1011866caa62ac99
