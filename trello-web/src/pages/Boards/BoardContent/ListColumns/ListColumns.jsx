@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import TextField from "@mui/material/TextField";
 import CloseIcon from '@mui/icons-material/Close';
+import { toast } from 'react-toastify'
 import {
   SortableContext,
   horizontalListSortingStrategy, // keo theo chieu ngang
@@ -17,7 +18,7 @@ function ListColumns({ columns }) {
   const [newColumnTitle, setNewColumnTitle] = useState('')
   const addNewColumn = () => {
     if (!newColumnTitle) {
-      // console.error('Please enter Column Title!')
+      toast.error('Please enter Column Title!')
       return
     }
     // console.log(newColumnTitle)
