@@ -1,13 +1,14 @@
 import {
   DndContext,
   DragOverlay,
-  MouseSensor,
-  TouchSensor,
+  // MouseSensor,
+  // TouchSensor,
   defaultDropAnimationSideEffects,
   useSensor,
   useSensors,
   closestCorners,
 } from "@dnd-kit/core";
+import {MouseSensor,TouchSensor} from "~/customLibraries/DndKitSensors"
 import { arrayMove } from "@dnd-kit/sortable";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
