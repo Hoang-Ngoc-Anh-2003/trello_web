@@ -1,3 +1,4 @@
+
 import React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
@@ -26,8 +27,9 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify'
+import {useConfirm} from 'material-ui-confirm'
 
-function Column({ column }) {
+function Column({ column, createNewCard }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
@@ -36,14 +38,13 @@ function Column({ column }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, "_id");
-
+  const orderedCards = column.cards
 
   const [openNewCardForm, setOpenNewCardForm] = useState(false)
   const toggleOpenNewCardForm = () => setOpenNewCardForm(!openNewCardForm)
 
   const [newCardTitle, setNewCardTitle] = useState('')
-  const addNewCard = () => {
+  const addNewCard = async () => {
     if (!newCardTitle) {
       toast.error('Please enter Card Title!', { position: 'bottom-right' })
       return
@@ -51,6 +52,14 @@ function Column({ column }) {
     // console.log(newCardTitle)
     //Goi API o day ...
 
+    //tao du lieu  card de goi API
+    const newCardData = {
+      title: newCardTitle,
+      columnId: column._id
+
+    }
+
+    createNewCard(newCardData)
     //Dong trang thai them column moi va clear input
     toggleOpenNewCardForm()
     setNewCardTitle('')
@@ -71,7 +80,30 @@ function Column({ column }) {
     height: "100%",
     opacity: isDragging ? 0.5 : undefined,
   };
+//xu ly xoa column va card ben trong no
+const confirmDeleteColumn = useConfirm()
+const handleDeleteColumn = () => {
+  confirmDeleteColumn({
+    title: 'Delete Column?',
+    description:
+      'This action will permanently delete your Column and its Cards! Are you sure?',
+    confirmationText: 'Confirm',
+    cancellationText: 'Cancel'
+  })
+    .then(() => {
+      /**
+       * - Gọi lên props function deleteColumnDetails nằm ở component cha cao nhất (boards/_id.jsx)
+       * - Lưu ý: về sau ở học phần MERN Stack Advance nâng cao học trực tiếp với mình thì chúng ta sẽ đưa dữ liệu Board ra ngoài Redux Global Store
+       * - Thì lúc này chúng ta có thể gọi luôn API ở đây là xong thay vì phải lần lược gọi ngược lên những component cha phía bên trên. (Đối với component con nằm càng sâu thì càng khổ 😆)
+       * - Với việc sử dụng Redux như vậy thì code sẽ Clean chuẩn chỉnh hơn rất nhiều
+       */
+      console.log('column._id:', column._id)
+      console.log('column.title:', column.title)
 
+      deleteColumnDetails(column._id)
+    })
+    .catch(() => {})
+}
   return (
     <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>
       <Box
@@ -130,12 +162,21 @@ function Column({ column }) {
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
+              onClick={handleClose}
               TransitionComponent={Fade}
             >
-              <MenuItem>
+              <MenuItem
+                onClick={toggleOpenNewCardForm}
+                sx={{
+                  '&:hover': {
+                    color: 'success.light',
+                    '& .add-card-icon': { color: 'success.light' }
+                  }
+                }}
+              >
                 <ListItemIcon>
                   {" "}
-                  <AddCardIcon fontSize="small" />
+                  <AddCardIcon className="add-card-icon" fontSize="small" />
                 </ListItemIcon>
                 <ListItemText>Add new card</ListItemText>
               </MenuItem>
@@ -161,12 +202,20 @@ function Column({ column }) {
                 <ListItemText>Paste</ListItemText>
               </MenuItem>
               <Divider />
-              <MenuItem>
+              <MenuItem
+                onClick={handleDeleteColumn}
+                sx={{
+                  '&:hover': {
+                    color: 'warning.dark',
+                    '& .delete-forever-icon': { color: 'warning.dark' }
+                  }
+                }}
+              >
                 <ListItemIcon>
                   {" "}
-                  <DeleteForeverIcon Cloud fontSize="small" />{" "}
+                  <DeleteForeverIcon className="delete-forever-icon" Cloud fontSize="small" />{" "}
                 </ListItemIcon>
-                <ListItemText>Remove this column</ListItemText>
+                <ListItemText>Delete this column</ListItemText>
               </MenuItem>
               <MenuItem>
                 <ListItemIcon>

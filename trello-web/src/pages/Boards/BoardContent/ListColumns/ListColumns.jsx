@@ -10,8 +10,9 @@ import {
   horizontalListSortingStrategy, // keo theo chieu ngang
 } from "@dnd-kit/sortable";
 import { useState } from "react";
+import { createNewCardAPI } from "~/apis";
 
-function ListColumns({ columns }) {
+function ListColumns({ columns, createNewColumn, createNewCard }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
   const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
 
@@ -22,7 +23,13 @@ function ListColumns({ columns }) {
       return
     }
     // console.log(newColumnTitle)
-    //Goi API o day ...
+
+    //tao du lieu  column de goi API
+    const newColumnData = {
+      title: newColumnTitle,
+
+    }
+    createNewColumn(newColumnData)
 
     //Dong trang thai them column moi va clear input
     toggleOpenNewColumnForm()
@@ -46,7 +53,7 @@ function ListColumns({ columns }) {
         }}
       >
         {columns?.map(column => (
-          <Column key={column._id} column={column} />
+          <Column key={column._id} column={column} createNewCard={createNewCard} />
         ))}
         {!openNewColumnForm
           ? <Box onClick={toggleOpenNewColumnForm}
