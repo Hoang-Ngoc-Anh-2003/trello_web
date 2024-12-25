@@ -1,5 +1,5 @@
 import Joi from 'joi'
-import {ObjectId} from 'mongodb'
+import {ObjectId, ReturnDocument} from 'mongodb'
 import { GET_DB } from '~/config/mongodb'
 import {BOARD_TYPES} from '~/utils/constants'
 import {columnModel} from '~/models/columnModel'
@@ -18,6 +18,9 @@ const BOARD_COLLECTION_SCHEMA = Joi.object({ //correction data,
   updatedAt: Joi.date().timestamp('javascript').default(null),
   _destroy: Joi.boolean().default(false)
 })
+
+// Chỉ định ra những Fields mà chúng ta không muốn cho phép cập nhật trong hàm update()
+const INVALID_UPDATE_FIELDS = ['_id', 'createdAt']
 
 const validateBeforeCreate = async (data) =>{
   return await  BOARD_COLLECTION_SCHEMA.validateAsync(data,{abortEarly:false})
@@ -66,18 +69,66 @@ const getDetails = async (id) =>{
       } }
     ]).toArray()
     console.log(result)
-    return result[0] || {}
+    return result[0] || null
   } catch (error) {
     throw new Error(error)
   }
 }
+//push gia tri columnid vao cuoi mang columnOrderIds
+const pushColumnOrderIds = async(column) =>{
+  try {
+    const result = await GET_DB().collection(BOARD_COLLECTION_NAME).findOneAndUpdate(
+      { _id: new ObjectId(column.boardId)},
+      { $push: { columnOrderIds:new ObjectId(column._id) }},
+      { ReturnDocument: 'after' }
+    )
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
 
+}
+
+const update = async (boardId, updateData) => {
+  try {
+    // Lọc những field mà chúng ta không cho phép cập nhật linh tinh
+    Object.keys(updateData).forEach((fieldName) => {
+      if (INVALID_UPDATE_FIELDS.includes(fieldName)) {
+        delete updateData[fieldName]
+      }
+    })
+
+    // Đối với những dữ liệu liên quan ObjectId, biến đổi ở đây
+    if (updateData.columnOrderIds) {
+      updateData.columnOrderIds = updateData.columnOrderIds.map((_id) => new ObjectId(_id))
+    }
+
+    const result = await GET_DB()
+      .collection(BOARD_COLLECTION_NAME)
+      .findOneAndUpdate(
+        {
+          _id: new ObjectId(boardId)
+        },
+        {
+          $set: updateData
+        },
+        {
+          returnDocument: 'after' // Sẽ trả về kết quả mới sau khi cập nhật
+        }
+      )
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 export const boardModel = {
   BOARD_COLLECTION_NAME,
   BOARD_COLLECTION_SCHEMA,
   createNew,
+  pushColumnOrderIds,
   findOneById,
-  getDetails
+  getDetails,
+  update
 }
 
 // boardId: 67655e4843da9dde923534b3
