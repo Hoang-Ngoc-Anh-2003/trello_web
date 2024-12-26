@@ -15,7 +15,11 @@ function ListCards({ cards }) {
     >
       <Box
         sx={{
+<<<<<<< HEAD
           p: "0 5px",
+=======
+          p: "0 5px 5px 5px",
+>>>>>>> FEfix
           m: "0 5px",
           display: "flex",
           flexDirection: "column",
@@ -23,8 +27,12 @@ function ListCards({ cards }) {
           overflowX: "hidden",
           overflowY: "auto",
           maxHeight: theme =>
+<<<<<<< HEAD
             `calc( ${theme.trello.boardContentHeight} - ${theme.spacing(5)} - ${
               theme.trello.columnHeaderHeight
+=======
+            `calc( ${theme.trello.boardContentHeight} - ${theme.spacing(5)} - ${theme.trello.columnHeaderHeight
+>>>>>>> FEfix
             } - ${theme.trello.columnFooterHeight} )`,
           "&::-webkit-scrollbar-thumb": {
             backgroundColor: "#ced0da",
