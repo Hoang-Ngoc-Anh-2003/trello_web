@@ -12,7 +12,20 @@ import 'react-toastify/dist/ReactToastify.css'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <ConfirmProvider>
+      <ConfirmProvider defaultOptions={{
+        dialogProps: {
+          maxWidth: 'xs'
+        },
+        confirmationButtonProps: {
+          color: 'secondary',
+          variant: 'outlined'
+        },
+        cancellationButtonProps: {
+          color: 'inherit'
+        },
+        allowClose: false,
+        // buttonOrder: ['confirm', 'cancel']
+      }}>
         <CssBaseline />
         <App />
         <ToastContainer position='top-left' theme="colored" />

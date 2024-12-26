@@ -29,7 +29,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify'
 import {useConfirm} from 'material-ui-confirm'
 
-function Column({ column, createNewCard }) {
+function Column({ column, createNewCard, deleteColumnDetails }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = event => {
